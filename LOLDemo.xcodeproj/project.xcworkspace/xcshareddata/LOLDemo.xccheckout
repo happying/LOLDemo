@@ -6,29 +6,33 @@
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>95E521AA-80FC-454F-9FBD-AE0BB95D1A8B</string>
+	<key>IDESourceControlProjectName</key>
+	<string>LOLDemo</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>152682B289E8E6C0921DF28D1C32AE55D54C7848</key>
+		<key>15F84298BB9FDE64F3C26CAF5627D5CE08BF3C87</key>
 		<string>https://github.com/happying/LOLDemo.git</string>
 	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>LOLDemo.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>152682B289E8E6C0921DF28D1C32AE55D54C7848</key>
-		<string>LOLDemo/</string>
+		<key>15F84298BB9FDE64F3C26CAF5627D5CE08BF3C87</key>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/happying/LOLDemo.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>152682B289E8E6C0921DF28D1C32AE55D54C7848</string>
+	<string>15F84298BB9FDE64F3C26CAF5627D5CE08BF3C87</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>152682B289E8E6C0921DF28D1C32AE55D54C7848</string>
+			<string>15F84298BB9FDE64F3C26CAF5627D5CE08BF3C87</string>
 			<key>IDESourceControlWCCName</key>
 			<string>LOLDemo</string>
 		</dict>

@@ -336,6 +336,17 @@
     //去除掉之前tab上的背景图片
     [_tabBackImage removeFromSuperview];
     
+    //获取全部子视图，使其文字变成白色
+    NSArray *subViews1 = activeTabView.subviews;
+    for (UIView *manyView1 in subViews1) {
+        if ([manyView1 isKindOfClass:[UILabel class]]) {
+            id lableTmp = manyView1;
+            UILabel *tmp = lableTmp;
+            tmp.textColor = [UIColor blackColor];
+        }
+    }
+    
+    
     // Set to-be-active tab selected
     activeTabView = [self tabViewAtIndex:activeTabIndex];
     activeTabView.selected = YES;
@@ -348,6 +359,15 @@
     UIView *tabView = [self tabViewAtIndex:self.activeTabIndex];
     CGRect frame = tabView.frame;
     
+    //获取全部子视图，使其文字变成白色
+    NSArray *subViews = tabView.subviews;
+    for (UIView *manyView1 in subViews) {
+        if ([manyView1 isKindOfClass:[UILabel class]]) {
+            id lableTmp = manyView1;
+            UILabel *tmp = lableTmp;
+            tmp.textColor = [UIColor whiteColor];
+        }
+    }
     
     //往tabview上添加背景图片
     [tabView addSubview:_tabBackImage];
@@ -952,11 +972,6 @@
     if (index >= self.tabCount) {
         return nil;
     }
-    //此处将所需的tab置空，以方便tab变化时的底部方块变化
-//    for (int i = 0; i <= index; i++) {
-//        [self.tabs replaceObjectAtIndex:index withObject:[NSNull null]];
-//    }
-    
     if ([[self.tabs objectAtIndex:index] isEqual:[NSNull null]]) {
 
         // Get view from dataSource

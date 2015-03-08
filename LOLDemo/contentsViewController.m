@@ -64,14 +64,14 @@
     self.newsContentImagePlayer.pageControlPosition = ICPageControlPosition_BottomRight;
     self.newsContentImagePlayer.hidePageControl = NO;
     //self.newsContentImagePlayer.edgeInsets = UIEdgeInsetsMake(0, 0, screenWidth, 200);
-    self.newsContentImagePlayer.backgroundColor = [UIColor blackColor];
+//    self.newsContentImagePlayer.backgroundColor = [UIColor blackColor];
     [self.view addSubview:self.newsContentImagePlayer];
 
     [_newsContentImagePlayer mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(0);
         make.top.mas_equalTo(0);
         make.right.mas_equalTo(0);
-        make.height.mas_equalTo(200);
+        make.height.mas_equalTo(165);
     }];
 }
 

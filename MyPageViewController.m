@@ -18,15 +18,12 @@
     return self;
 }
 
-- (void)setImagePageStateNormal:(UIImage *)image {  // 设置正常状态点按钮的图片
-    _imagePageStateHighlighted = image ;
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
     [self updateDots];
 }
 
-- (void)setImagePageStateHighlighted:(UIImage *)image { // 设置高亮状态点按钮图片
-    _imagePageStateNormal = image ;
-    [self updateDots];
-}
 -(void)setImagePageForStateNormal:(UIImage *)normalImage StateHighlighted:(UIImage *)highLightedImage{
     _imagePageStateHighlighted = normalImage;
     _imagePageStateNormal = highLightedImage;
@@ -47,6 +44,7 @@
         {
             UIImageView *dot = [self imageViewForSubview:[subview  objectAtIndex:i]];
             dot.image = self.currentPage == i ? self.imagePageStateNormal : self.imagePageStateHighlighted;
+            dot.backgroundColor = [UIColor clearColor];
         }
     }
     

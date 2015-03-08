@@ -8,7 +8,8 @@
 
 #import "ImagePlayerView.h"
 #import "Masonry.h"
-#import "CycleScrollView.h"
+#import "MyPageViewController.h"
+#import "SMPageControl.h"
 
 #define kStartTag   1000
 #define kDefaultScrollInterval  2
@@ -17,9 +18,11 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, assign) NSInteger count;
 @property (nonatomic, strong) NSTimer *autoScrollTimer;
-@property (nonatomic, strong) UIPageControl *pageControl;
+@property (nonatomic, strong) SMPageControl *pageControl;
 @property (nonatomic, strong) NSMutableArray *pageControlConstraints;
 @property (nonatomic, strong) NSMutableArray *scrollViewConstraints;
+@property (nonatomic, strong) NSMutableArray *newsTitles; //自己添加的，用于记录广告语的数组
+@property (nonatomic, strong) UILabel *newsLable; //自己添加的，用于在广告条中显示广告
 @end
 
 @implementation ImagePlayerView
@@ -74,30 +77,22 @@
     self.scrollView.directionalLockEnabled = YES;
     
     self.scrollView.delegate = self;
+    
+    
 
     
-    // UIPageControl
-    if (!self.pageControl) {
-        self.pageControl = [[UIPageControl alloc] init];
-    }
-    self.pageControl.userInteractionEnabled = YES;
-    self.pageControl.translatesAutoresizingMaskIntoConstraints = NO;
-    self.pageControl.numberOfPages = self.count;
-    self.pageControl.currentPage = 0;
-    [self.pageControl addTarget:self action:@selector(handleClickPageControl:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:self.pageControl];
-    
-    NSArray *pageControlVConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[pageControl]-0-|"
-                                                                               options:kNilOptions
-                                                                               metrics:nil
-                                                                                 views:@{@"pageControl": self.pageControl}];
-    NSArray *pageControlHConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[pageControl]-|"
-                                                                               options:kNilOptions
-                                                                               metrics:nil
-                                                                                 views:@{@"pageControl": self.pageControl}];
-    self.pageControlConstraints = [NSMutableArray arrayWithArray:pageControlVConstraints];
-    [self.pageControlConstraints addObjectsFromArray:pageControlHConstraints];
-    [self addConstraints:self.pageControlConstraints];
+    //
+//    NSArray *pageControlVConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[pageControl]-0-|"
+//                                                                               options:kNilOptions
+//                                                                               metrics:nil
+//                                                                                 views:@{@"pageControl": self.pageControl}];
+//    NSArray *pageControlHConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[pageControl]-|"
+//                                                                               options:kNilOptions
+//                                                                               metrics:nil
+//                                                                                 views:@{@"pageControl": self.pageControl}];
+//    self.pageControlConstraints = [NSMutableArray arrayWithArray:pageControlVConstraints];
+//    [self.pageControlConstraints addObjectsFromArray:pageControlHConstraints];
+//    [self addConstraints:self.pageControlConstraints];
 
     self.edgeInsets = UIEdgeInsetsZero;
     
@@ -120,8 +115,12 @@
     
     self.count = [self.imagePlayerViewDelegate numberOfItems];
     
-    self.pageControl.numberOfPages = self.count;
-    self.pageControl.currentPage = 0;
+    //构建的临时方法用于设置广告语，将来应该暴露除一个set方法
+    _newsTitles = [[NSMutableArray alloc] init];
+    for (int num = 0; num < self.count; num++) {
+        NSString *tmp = [NSString stringWithFormat:@"第%d个广告语言",num];
+        [_newsTitles addObject:tmp];
+    }
     
     if (self.count == 0) {
         return;
@@ -197,14 +196,45 @@
     self.scrollView.contentInset = UIEdgeInsetsZero;
     //这里在下方增加了一个黑色条带
     UIView *titleBack = [[UIView alloc] init];
-    titleBack.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
+    titleBack.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.8];
     [self.scrollView addSubview:titleBack];
     [titleBack mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(0);
         make.bottom.mas_equalTo(self.scrollView);
         make.right.mas_equalTo(0);
-        make.height.mas_equalTo(50);
+        make.height.mas_equalTo(26);
     }];
+    
+    // UIPageControl 这里将原来在_init的关于UIPageControl搬到这里，以规避那些原有的自动布局
+    if (!self.pageControl) {
+        self.pageControl = [[SMPageControl alloc] init];
+    }
+    [self.pageControl setPageIndicatorImage:[UIImage imageNamed:@"list_news_tab_image_background@2x"]];
+    [self.pageControl setCurrentPageIndicatorImage:[UIImage imageNamed:@"list_news_tab_image_select@2x.png"]];
+    self.pageControl.backgroundColor = [UIColor clearColor];
+    self.pageControl.userInteractionEnabled = YES;
+    self.pageControl.translatesAutoresizingMaskIntoConstraints = NO;
+    self.pageControl.numberOfPages = self.count;
+    self.pageControl.currentPage = 0;
+//    [self.pageControl addTarget:self action:@selector(handleClickPageControl:) forControlEvents:UIControlEventTouchUpInside];
+    [titleBack addSubview:self.pageControl];
+    [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self);
+        make.bottom.equalTo(self.scrollView);
+        make.right.equalTo(self).offset(230);
+        make.top.equalTo(titleBack);
+    }];
+    
+    //这里添加广告语lable
+    _newsLable = [[UILabel alloc] init];
+    [titleBack addSubview:_newsLable];
+    _newsLable.text = [_newsTitles objectAtIndex:0];
+    [_newsLable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self);
+        make.top.mas_equalTo(titleBack);
+        make.height.mas_equalTo(titleBack);
+    }];
+
 }
 
 #pragma mark - actions
@@ -218,16 +248,16 @@
     }
 }
 
-- (void)handleClickPageControl:(UIPageControl *)sender
-{
-    if (self.autoScrollTimer && self.autoScrollTimer.isValid) {
-        [self.autoScrollTimer invalidate];
-    }
-    self.autoScrollTimer = [NSTimer scheduledTimerWithTimeInterval:self.scrollInterval target:self selector:@selector(handleScrollTimer:) userInfo:nil repeats:YES];
-    
-    UIImageView *imageView = (UIImageView *)[self.scrollView viewWithTag:(sender.currentPage + kStartTag)];
-    [self.scrollView scrollRectToVisible:imageView.frame animated:YES];
-}
+//- (void)handleClickPageControl:(UIPageControl *)sender
+//{
+//    if (self.autoScrollTimer && self.autoScrollTimer.isValid) {
+//        [self.autoScrollTimer invalidate];
+//    }
+//    self.autoScrollTimer = [NSTimer scheduledTimerWithTimeInterval:self.scrollInterval target:self selector:@selector(handleScrollTimer:) userInfo:nil repeats:YES];
+//    
+//    UIImageView *imageView = (UIImageView *)[self.scrollView viewWithTag:(sender.currentPage + kStartTag)];
+//    [self.scrollView scrollRectToVisible:imageView.frame animated:YES];
+//}
 
 #pragma mark - auto scroll
 - (void)setAutoScroll:(BOOL)autoScroll
@@ -277,6 +307,7 @@
     
     UIImageView *imageView = (UIImageView *)[self.scrollView viewWithTag:(nextPage + kStartTag)];
     [self.scrollView scrollRectToVisible:imageView.frame animated:animated];
+     _newsLable.text = [_newsTitles objectAtIndex:nextPage];
     
     self.pageControl.currentPage = nextPage;
 }
@@ -287,13 +318,6 @@
     if (scrollView.contentOffset.y > 0) {
         [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, 0)];
     }
-//    if (960 - scrollView.contentOffset.x  <=0.01) {
-//        [scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
-//    }
-//    CGPoint point=scrollView.contentOffset;
-//    NSLog(@"%f,%f",point.x,point.y);
-    
-
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
@@ -303,10 +327,6 @@
         [self.autoScrollTimer invalidate];
     }
     self.autoScrollTimer = [NSTimer scheduledTimerWithTimeInterval:self.scrollInterval target:self selector:@selector(handleScrollTimer:) userInfo:nil repeats:YES];
-    
-    
-    
-
     
     // update UIPageControl
     CGRect visiableRect = CGRectMake(scrollView.contentOffset.x, scrollView.contentOffset.y, scrollView.bounds.size.width, scrollView.bounds.size.height);
@@ -319,15 +339,23 @@
             }
         }
     }
+    //加一段代码以更新广告语
+    
+    if (currentIndex < self.count) {
+         _newsLable.text = [_newsTitles objectAtIndex:currentIndex];
+    }
     
     self.pageControl.currentPage = currentIndex;
     
     //这里多加一个判断，以实现末尾跳转
     if (1200 - scrollView.contentOffset.x  <=0.01) {
-        [scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
-        self.pageControl.currentPage = 0;
         CGPoint point=scrollView.contentOffset;
         NSLog(@"%f,%f",point.x,point.y);
+        [scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
+        self.pageControl.currentPage = 0;
+        //跳转后，将广告语设为第一条
+        _newsLable.text = [_newsTitles objectAtIndex:0];
+        
     }
 }
 
@@ -380,21 +408,21 @@
     
     [self removeConstraints:self.pageControlConstraints];
     
-    NSArray *pageControlVConstraints = [NSLayoutConstraint constraintsWithVisualFormat:vFormat
-                                                                               options:kNilOptions
-                                                                               metrics:nil
-                                                                                 views:@{@"pageControl": self.pageControl}];
+//    NSArray *pageControlVConstraints = [NSLayoutConstraint constraintsWithVisualFormat:vFormat
+//                                                                               options:kNilOptions
+//                                                                               metrics:nil
+//                                                                                 views:@{@"pageControl": self.pageControl}];
+//    
+//    NSArray *pageControlHConstraints = [NSLayoutConstraint constraintsWithVisualFormat:hFormat
+//                                                                               options:kNilOptions
+//                                                                               metrics:nil
+//                                                                                 views:@{@"pageControl": self.pageControl}];
+//    
+//    [self.pageControlConstraints removeAllObjects];
+//    [self.pageControlConstraints addObjectsFromArray:pageControlVConstraints];
+//    [self.pageControlConstraints addObjectsFromArray:pageControlHConstraints];
     
-    NSArray *pageControlHConstraints = [NSLayoutConstraint constraintsWithVisualFormat:hFormat
-                                                                               options:kNilOptions
-                                                                               metrics:nil
-                                                                                 views:@{@"pageControl": self.pageControl}];
-    
-    [self.pageControlConstraints removeAllObjects];
-    [self.pageControlConstraints addObjectsFromArray:pageControlVConstraints];
-    [self.pageControlConstraints addObjectsFromArray:pageControlHConstraints];
-    
-    [self addConstraints:self.pageControlConstraints];
+//    [self addConstraints:self.pageControlConstraints];
 }
 
 - (void)setHidePageControl:(BOOL)hidePageControl
