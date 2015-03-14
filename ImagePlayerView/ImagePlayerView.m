@@ -8,7 +8,6 @@
 
 #import "ImagePlayerView.h"
 #import "Masonry.h"
-#import "MyPageViewController.h"
 #import "SMPageControl.h"
 
 #define kStartTag   1000

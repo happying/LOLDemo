@@ -8,11 +8,12 @@
 
 #import "ViewController.h"
 #import "Masonry.h"
+#import "NewsTableViewController.h"
 
 @interface ViewController () <ViewPagerDataSource, ViewPagerDelegate>
 
 @property (nonatomic) NSUInteger numberOfTabs;
-@property (strong,nonatomic) contentsViewController *testviewController;
+@property (strong,nonatomic) NewsTableViewController *testviewController;
 @property (nonatomic,readwrite)BOOL ifTabChange;
 
 @end
@@ -90,9 +91,12 @@
 }
 
 - (UIViewController *)viewPager:(ViewPagerController *)viewPager contentViewControllerForTabAtIndex:(NSUInteger)index{
-    _testviewController = [[contentsViewController alloc] init];
-    _testviewController.lableString = [NSString stringWithFormat:@"this is the %lu viewController",(unsigned long)index];
+//    _testviewController = [[contentsViewController alloc] init];
+//    _testviewController.lableString = [NSString stringWithFormat:@"this is the %lu viewController",(unsigned long)index];
+//    return _testviewController;
+    _testviewController = [[NewsTableViewController alloc] init];
     return _testviewController;
+    
 }
 
 
