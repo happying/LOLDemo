@@ -59,7 +59,6 @@
     // 设置正在刷新状态的动画图片
     [self.tableView.gifHeader setImages:headerGif forState:MJRefreshHeaderStateRefreshing];
     
-    
     //同上
     [self.tableView addGifFooterWithRefreshingTarget:self refreshingAction:@selector(footerRefreshing)];
     // 设置正在刷新状态的动画图片
@@ -73,7 +72,6 @@
     [self.tableView.header setTitle:@"下拉刷新..." forState:MJRefreshHeaderStateIdle];
     [self.tableView.header setTitle:@"释放刷新..." forState:MJRefreshHeaderStatePulling];
     [self.tableView.header setTitle:@"加载中..." forState:MJRefreshHeaderStateRefreshing];
-    
     
     [self.tableView.footer setTitle:@"上拉加载" forState:MJRefreshFooterStateIdle];
     [self.tableView.footer setTitle:@"释放加载" forState:MJRefreshFooterStateRefreshing];
@@ -165,7 +163,6 @@
     dateLable.text = date;
     
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
         
@@ -183,7 +180,6 @@
         [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(cell.contentView).offset(14);
             make.top.mas_equalTo(cell.contentView).offset(11);
-//            make.size.mas_equalTo(CGSizeMake(73, 55));
             make.size.mas_equalTo(CGSizeMake(0.25 * cell.frame.size.width, 0.75 * 0.16 * tableView.frame.size.height));
         }];
         NSLog(@"%lf",cell.frame.size.height);
@@ -215,11 +211,6 @@
     
     return cell;
 }
-
-
-//- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    return 75;
-//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 0.16 * tableView.frame.size.height;

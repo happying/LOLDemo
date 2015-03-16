@@ -42,8 +42,7 @@
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
-        [self setContentForTabs];
+    [self setContentForTabs];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -58,7 +57,6 @@
 - (void)setNumberOfTabs:(NSUInteger)numberOfTabs {
     // Set numberOfTabs
     _numberOfTabs = numberOfTabs;
-    
     // Reload data
     [self reloadData];
 }
@@ -87,13 +85,9 @@
 }
 
 -(void)viewPager:(ViewPagerController *)viewPager didChangeTabToIndex:(NSUInteger)index fromIndex:(NSUInteger)previousIndex{
-    
 }
 
 - (UIViewController *)viewPager:(ViewPagerController *)viewPager contentViewControllerForTabAtIndex:(NSUInteger)index{
-//    _testviewController = [[contentsViewController alloc] init];
-//    _testviewController.lableString = [NSString stringWithFormat:@"this is the %lu viewController",(unsigned long)index];
-//    return _testviewController;
     _testviewController = [[NewsTableViewController alloc] init];
     return _testviewController;
     
