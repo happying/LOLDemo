@@ -13,10 +13,7 @@
 
 @interface NewsTableViewController ()
 
-@property (nonatomic, strong) NSMutableArray *imageArray;
-@property (nonatomic) NSInteger cellNumber;
-@property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic,strong) NSArray *imagesArray;
+
 
 
 @end
@@ -37,7 +34,14 @@
         make.right.mas_equalTo(self.view);
         make.bottom.mas_equalTo(self.view);
     }];
+    _cellIdentifier = @"identifier";
     
+    self.newsContentImagePlayer = [[ImagePlayerView alloc] init];
+    self.newsContentImagePlayer.imagePlayerViewDelegate = self;
+    self.newsContentImagePlayer.scrollInterval = 5.0f;
+    self.newsContentImagePlayer.pageControlPosition = ICPageControlPosition_BottomRight;
+    self.newsContentImagePlayer.hidePageControl = NO;
+
     [self setUpRefresh];
 }
 
@@ -95,18 +99,8 @@
 
 //下拉刷新触发方法
 - (void)headerRefreshing{
-    //添加数据
-    for (int i = 0; i < 13; i++) {
-        NSString *imageName = [NSString stringWithFormat:@"LOL%d.jpg" , i+1];
-        UIImage *image = [UIImage imageNamed:imageName];
-        [_imageArray addObject:image];
-        imageName = @"";
-    }
-    
     //利用gcd造成一个两秒的时差以观察效果并重新加载数据
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
-        
         //加载完之后结束
         [self.tableView.header endRefreshing];
     });
@@ -114,18 +108,8 @@
 
 //上拉加载触发方法
 - (void)footerRefreshing{
-    //添加数据
-    for (int i = 0; i < 13; i++) {
-        NSString *imageName = [NSString stringWithFormat:@"LOL%d.jpg" , i+1];
-        UIImage *image = [UIImage imageNamed:imageName];
-        [_imageArray addObject:image];
-        imageName = @"";
-    }
-    
     //利用gcd造成一个两秒的时差以观察效果并重新加载数据
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
-        
         //加载完之后结束
         [self.tableView.footer endRefreshing];
     });
@@ -140,7 +124,7 @@
 }
 
 - (NSInteger)cellNumber{
-    _cellNumber = self.cellNumber + 13;
+    _cellNumber = self.cellNumber;
     return _cellNumber;
 }
 
@@ -166,28 +150,57 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.imageArray.count;
+    return self.imageArray.count - 4;
 }
 
 - (UITableViewCell *)imagePlayerCellWithIndex:(NSIndexPath *)indexPath{
-    NSString *cellIdentifier = @"identifier";
+    
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:_cellIdentifier];
     NSString *date = @"03-13";
     UILabel *dateLable = [[UILabel alloc] init];
     dateLable.text = date;
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:_cellIdentifier];
     
-    self.newsContentImagePlayer = [[ImagePlayerView alloc] init];
-    self.newsContentImagePlayer.imagePlayerViewDelegate = self;
-    self.newsContentImagePlayer.scrollInterval = 5.0f;
-    self.newsContentImagePlayer.pageControlPosition = ICPageControlPosition_BottomRight;
-    self.newsContentImagePlayer.hidePageControl = NO;
-    [cell.contentView addSubview:self.newsContentImagePlayer];
+    NSInteger index = indexPath.row;
+    dateLable.font = [UIFont fontWithName:@"Helvetica" size:10];
+    dateLable.textColor = [[UIColor grayColor] colorWithAlphaComponent:0.7];
+    [cell.contentView addSubview:dateLable];
+    [dateLable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(cell.contentView).offset(-11);
+        make.right.mas_equalTo(cell.contentView).offset(-11);
+    }];
     
-    [_newsContentImagePlayer mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(cell.contentView);
-        make.top.mas_equalTo(cell.contentView);
-        make.right.mas_equalTo(cell.contentView);
-        make.height.mas_equalTo(165);
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[self.imageArray objectAtIndex:index]];
+    [cell.contentView addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(cell.contentView).offset(14);
+        make.top.mas_equalTo(cell.contentView).offset(11);
+        make.size.mas_equalTo(CGSizeMake(0.25 * cell.frame.size.width, 0.75 * 0.16 * _tableView.frame.size.height));
+    }];
+    NSLog(@"%lf",cell.frame.size.height);
+    
+    NSString *titleString = @"每日一笑，提莫你别种蘑菇了";
+    UILabel *titleLable = [[UILabel alloc] init];
+    titleLable.text = titleString;
+    titleLable.font = [UIFont fontWithName:@"Helvetica" size:15];
+    [cell.contentView addSubview:titleLable];
+    [titleLable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(imageView.mas_right).offset(8);
+        make.top.mas_equalTo(imageView);
+    }];
+    
+    NSString *detailString = @"英雄联盟全体英雄祝大家新春快乐，万事如意";
+    UILabel *detailLable = [[UILabel alloc] init];
+    detailLable.text = detailString;
+    detailLable.textColor = [[UIColor grayColor] colorWithAlphaComponent:0.7];
+    detailLable.lineBreakMode = NSLineBreakByWordWrapping;
+    detailLable.numberOfLines = 0;
+    detailLable.font = [UIFont fontWithName:@"Helvetica" size:14];
+    [cell.contentView addSubview:detailLable];
+    [detailLable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(titleLable);
+        make.top.mas_equalTo(titleLable.mas_bottom).offset(5);
+        make.width.mas_equalTo(0.65 * [UIScreen mainScreen].bounds.size.width);
     }];
 
     return cell;
@@ -199,19 +212,26 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *cellIdentifier = @"identifier";
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:_cellIdentifier];
+    
+    if (cell != nil) {
+        cell = nil;
+    }
     
     NSString *date = @"03-13";
     UILabel *dateLable = [[UILabel alloc] init];
     dateLable.text = date;
     
+    if (indexPath.row == 0 ) {
+        cell = [self imagePlayerCellWithIndex:indexPath];
+        return cell;
+    }
+    
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
-        if (indexPath.row == 0) {
-                cell = [self imagePlayerCellWithIndex:indexPath];
-                return cell;
-        }
+        
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:_cellIdentifier];
+        
         NSInteger index = indexPath.row;
         dateLable.font = [UIFont fontWithName:@"Helvetica" size:10];
         dateLable.textColor = [[UIColor grayColor] colorWithAlphaComponent:0.7];
@@ -261,9 +281,6 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        return 165;
-    }
     return 0.16 * tableView.frame.size.height;
 }
 

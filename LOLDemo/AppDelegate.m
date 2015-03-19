@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "MySelfDataForLOLDemoViewController.h"
+#import "NewsAndImagePlayerViewController.h"
 
 @interface AppDelegate ()
 

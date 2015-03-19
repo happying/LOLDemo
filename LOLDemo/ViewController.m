@@ -10,11 +10,14 @@
 #import "Masonry.h"
 #import "NewsTableViewController.h"
 #import "contentsViewController.h"
+#import "NewsAndImagePlayerViewController.h"
 
 @interface ViewController () <ViewPagerDataSource, ViewPagerDelegate>
 
 @property (nonatomic) NSUInteger numberOfTabs;
 @property (strong, nonatomic) NewsTableViewController *testviewController;
+//@property (strong, nonatomic) NewsAndImagePlayerViewController *testviewController;
+
 @property (strong, nonatomic) contentsViewController *contentViewController;
 @property (nonatomic, readwrite)BOOL ifTabChange;
 
