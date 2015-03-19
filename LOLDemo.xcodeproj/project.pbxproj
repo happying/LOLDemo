@@ -113,7 +113,6 @@
 		54C6C05E1AB4241700C82958 /* NewsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54C6C05D1AB4241700C82958 /* NewsTableViewController.m */; };
 		54CD088A1A6FADA1002BBB8A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CD08891A6FADA1002BBB8A /* main.m */; };
 		54CD088D1A6FADA1002BBB8A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CD088C1A6FADA1002BBB8A /* AppDelegate.m */; };
-		54CD08901A6FADA1002BBB8A /* ViewControlle.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CD088F1A6FADA1002BBB8A /* ViewControlle.m */; };
 		54CD08931A6FADA1002BBB8A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54CD08911A6FADA1002BBB8A /* Main.storyboard */; };
 		54CD08951A6FADA1002BBB8A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54CD08941A6FADA1002BBB8A /* Images.xcassets */; };
 		54CD08981A6FADA1002BBB8A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54CD08961A6FADA1002BBB8A /* LaunchScreen.xib */; };
@@ -274,8 +273,6 @@
 		54CD08891A6FADA1002BBB8A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		54CD088B1A6FADA1002BBB8A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		54CD088C1A6FADA1002BBB8A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		54CD088E1A6FADA1002BBB8A /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = LOLDemo/ViewController.h; sourceTree = "<group>"; };
-		54CD088F1A6FADA1002BBB8A /* ViewControlle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ViewControlle.m; path = LOLDemo/ViewControlle.m; sourceTree = "<group>"; };
 		54CD08921A6FADA1002BBB8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		54CD08941A6FADA1002BBB8A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		54CD08971A6FADA1002BBB8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -308,8 +305,6 @@
 				5437B96B1ABAE06800560821 /* MySelfData */,
 				54C6BFF21AB421D200C82958 /* NewsTableViewController */,
 				54CD08911A6FADA1002BBB8A /* Main.storyboard */,
-				54CD088E1A6FADA1002BBB8A /* ViewController.h */,
-				54CD088F1A6FADA1002BBB8A /* ViewControlle.m */,
 				542A858C1A8CADCF00DC0E19 /* contentsViewController.xib */,
 				5437B96F1ABB16CE00560821 /* TopTabViewController.h */,
 				5437B9701ABB16CE00560821 /* TopTabViewController.m */,
@@ -784,7 +779,6 @@
 				54B5726C1ABAA7430062D43C /* UIView+MJExtension.m in Sources */,
 				54B572931ABAA8C40062D43C /* NSArray+MASAdditions.m in Sources */,
 				54B572631ABAA7430062D43C /* MJRefreshConst.m in Sources */,
-				54CD08901A6FADA1002BBB8A /* ViewControlle.m in Sources */,
 				54B5728D1ABAA8C40062D43C /* MASCompositeConstraint.m in Sources */,
 				54B572911ABAA8C40062D43C /* MASViewAttribute.m in Sources */,
 				54B5728E1ABAA8C40062D43C /* MASConstraint.m in Sources */,
