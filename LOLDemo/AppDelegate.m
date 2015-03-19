@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "ViewController.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,48 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.backgroundColor = [UIColor whiteColor];
+    
+    self.myTabBarController = [[UITabBarController alloc] init];
+    [self.window setRootViewController:_myTabBarController];
+    
+    ViewController *firstViewController = [[ViewController alloc] init];
+    ViewController *secondViewController = [[ViewController alloc] init];
+    ViewController *thirdViewController = [[ViewController alloc] init];
+    ViewController *fourthViewController = [[ViewController alloc] init];
+    
+    _myTabBarController.viewControllers = @[firstViewController, secondViewController, thirdViewController, fourthViewController];
+    _myTabBarController.delegate = self;
+    _myTabBarController.tabBar.backgroundImage = [[UIImage imageNamed:@"tab_bar_bkg_2@2x.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    _myTabBarController.tabBar.selectionIndicatorImage = [[UIImage imageNamed:@"tab_bar_selected2@2x.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    UITabBar *myTabBar = _myTabBarController.tabBar;
+    UITabBarItem *firstItem = [myTabBar.items objectAtIndex:0];
+    UITabBarItem *secondItem = [myTabBar.items objectAtIndex:1];
+    UITabBarItem *thirdItem = [myTabBar.items objectAtIndex:2];
+    UITabBarItem *fourthItem = [myTabBar.items objectAtIndex:3];
+    
+    UIImage *firstUnSelecteImage = [UIImage imageNamed:@"tab_icon_news_normal@2x.png"];
+    UIImage *firstSelecteImage = [UIImage imageNamed:@"tab_icon_news_press2@2x.png"];
+    UIImage *secondUnSelecteImage = [UIImage imageNamed:@"tab_icon_friend_normal@2x.png"];
+    UIImage *secondSelecteImage = [UIImage imageNamed:@"tab_icon_friend_press2@2x.png"];
+    UIImage *thirdUnSelecteImage = [UIImage imageNamed:@"tab_icon_quiz_normal@2x.png"];
+    UIImage *thirdSelecteImage = [UIImage imageNamed:@"tab_icon_quiz_press2@2x.png"];
+    UIImage *fourthUnSelecteImage = [UIImage imageNamed:@"tab_icon_more_normal@2x.png"];
+    UIImage *fourthSelecteImage = [UIImage imageNamed:@"tab_icon_more_press2@2x.png"];
+    
+    firstItem.image = [firstUnSelecteImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    firstItem.selectedImage = [firstSelecteImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    secondItem.image = [secondUnSelecteImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    secondItem.selectedImage = [secondSelecteImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    thirdItem.image = [thirdUnSelecteImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    thirdItem.selectedImage = [thirdSelecteImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    fourthItem.image = [fourthUnSelecteImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    fourthItem.selectedImage = [fourthSelecteImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
     return YES;
 }
 
