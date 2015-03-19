@@ -9,12 +9,15 @@
 #import "NewsTableViewController.h"
 #import "Masonry.h"
 #import "MJRefresh.h"
+#import "contentsViewController.h"
 
 @interface NewsTableViewController ()
 
 @property (nonatomic, strong) NSMutableArray *imageArray;
 @property (nonatomic) NSInteger cellNumber;
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic,strong) NSArray *imagesArray;
+
 
 @end
 
@@ -42,6 +45,17 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(NSArray *)imagesArray{
+    if (!_imagesArray) {
+        _imagesArray = [[NSArray alloc] initWithObjects:[UIImage imageNamed:@"壁纸1.jpg"], [UIImage imageNamed:@"壁纸2.jpg"], [UIImage imageNamed:@"壁纸3.jpg"], [UIImage imageNamed:@"壁纸4.jpg"], nil];
+    }
+    return _imagesArray;
+}
+
+-(NSInteger)numberOfItems{
+    return self.imagesArray.count;
 }
 
 #pragma mark - MJRefresh
@@ -155,17 +169,49 @@
     return self.imageArray.count;
 }
 
+- (UITableViewCell *)imagePlayerCellWithIndex:(NSIndexPath *)indexPath{
+    NSString *cellIdentifier = @"identifier";
+    NSString *date = @"03-13";
+    UILabel *dateLable = [[UILabel alloc] init];
+    dateLable.text = date;
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+    
+    self.newsContentImagePlayer = [[ImagePlayerView alloc] init];
+    self.newsContentImagePlayer.imagePlayerViewDelegate = self;
+    self.newsContentImagePlayer.scrollInterval = 5.0f;
+    self.newsContentImagePlayer.pageControlPosition = ICPageControlPosition_BottomRight;
+    self.newsContentImagePlayer.hidePageControl = NO;
+    [cell.contentView addSubview:self.newsContentImagePlayer];
+    
+    [_newsContentImagePlayer mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(cell.contentView);
+        make.top.mas_equalTo(cell.contentView);
+        make.right.mas_equalTo(cell.contentView);
+        make.height.mas_equalTo(165);
+    }];
+
+    return cell;
+}
+
+- (void)imagePlayerView:(ImagePlayerView *)imagePlayerView loadImageForImageView:(UIImageView *)imageView index:(NSInteger)index{
+    imageView.image = [self.imagesArray objectAtIndex:index];
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdentifier = @"identifier";
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     NSString *date = @"03-13";
     UILabel *dateLable = [[UILabel alloc] init];
     dateLable.text = date;
     
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
-        
+        if (indexPath.row == 0) {
+                cell = [self imagePlayerCellWithIndex:indexPath];
+                return cell;
+        }
         NSInteger index = indexPath.row;
         dateLable.font = [UIFont fontWithName:@"Helvetica" size:10];
         dateLable.textColor = [[UIColor grayColor] colorWithAlphaComponent:0.7];
@@ -212,7 +258,12 @@
     return cell;
 }
 
+
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 0) {
+        return 165;
+    }
     return 0.16 * tableView.frame.size.height;
 }
 

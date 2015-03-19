@@ -90,10 +90,10 @@
 }
 
 - (UIViewController *)viewPager:(ViewPagerController *)viewPager contentViewControllerForTabAtIndex:(NSUInteger)index{
-//    _testviewController = [[NewsTableViewController alloc] init];
-    _contentViewController = [[contentsViewController alloc] init];
-    return _contentViewController;
-    
+    _testviewController = [[NewsTableViewController alloc] init];
+//    _contentViewController = [[contentsViewController alloc] init];
+//    return _contentViewController;
+    return _testviewController;
 }
 
 

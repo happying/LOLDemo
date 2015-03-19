@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ImagePlayerView.h"
 
 @interface contentsViewController : UIViewController
 
 @property(strong, nonatomic) UILabel *testLable;
 @property(strong, nonatomic) NSString *lableString;
+@property (nonatomic,strong) ImagePlayerView *newsContentImagePlayer;
+
 
 @end

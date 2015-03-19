@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "MySelfDataForLOLDemoViewController.h"
 
 @interface AppDelegate ()
 
@@ -26,8 +27,8 @@
     
     ViewController *firstViewController = [[ViewController alloc] init];
     ViewController *secondViewController = [[ViewController alloc] init];
-    ViewController *thirdViewController = [[ViewController alloc] init];
-    ViewController *fourthViewController = [[ViewController alloc] init];
+    MySelfDataForLOLDemoViewController *thirdViewController = [[MySelfDataForLOLDemoViewController alloc] init];
+    MySelfDataForLOLDemoViewController *fourthViewController = [[MySelfDataForLOLDemoViewController alloc] init];
     
     _myTabBarController.viewControllers = @[firstViewController, secondViewController, thirdViewController, fourthViewController];
     _myTabBarController.delegate = self;

@@ -8,11 +8,9 @@
 
 #import "contentsViewController.h"
 #import "Masonry.h"
-#import "ImagePlayerView.h"
 
 @interface contentsViewController ()<ImagePlayerViewDelegate>
 @property (nonatomic,strong) NSArray *imagesArray;
-@property (nonatomic,strong) ImagePlayerView *newsContentImagePlayer;
 @property (nonatomic, strong) NSArray *imageURLs;
 
 @end
@@ -48,12 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    _testLable = [[UILabel alloc] init];
-    _testLable.text = self.lableString;
-    _testLable.textColor = [UIColor blackColor];
-    _testLable.frame = CGRectMake(0, 0, 100, 100);
-    [_testLable sizeToFit];
-    [self.view addSubview:_testLable];
+
     
     
     

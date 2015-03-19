@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ImagePlayerView.h"
 
-@interface NewsTableViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+
+@interface NewsTableViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, ImagePlayerViewDelegate>
+
+@property (nonatomic,strong) ImagePlayerView *newsContentImagePlayer;
 
 @end
