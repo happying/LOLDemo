@@ -9,16 +9,13 @@
 #import "ViewController.h"
 #import "Masonry.h"
 #import "NewsTableViewController.h"
-#import "contentsViewController.h"
 #import "NewsAndImagePlayerViewController.h"
 
 @interface ViewController () <ViewPagerDataSource, ViewPagerDelegate>
 
 @property (nonatomic) NSUInteger numberOfTabs;
-@property (strong, nonatomic) NewsTableViewController *testviewController;
-//@property (strong, nonatomic) NewsAndImagePlayerViewController *testviewController;
-
-@property (strong, nonatomic) contentsViewController *contentViewController;
+@property (strong, nonatomic) NewsTableViewController *newsTableViewController;
+@property (strong, nonatomic) NewsAndImagePlayerViewController *newsAndImagePlayerViewController;
 @property (nonatomic, readwrite)BOOL ifTabChange;
 
 @end
@@ -93,10 +90,12 @@
 }
 
 - (UIViewController *)viewPager:(ViewPagerController *)viewPager contentViewControllerForTabAtIndex:(NSUInteger)index{
-    _testviewController = [[NewsTableViewController alloc] init];
-//    _contentViewController = [[contentsViewController alloc] init];
-//    return _contentViewController;
-    return _testviewController;
+    if (index == 0) {
+        _newsAndImagePlayerViewController = [[NewsAndImagePlayerViewController alloc] init];
+        return _newsAndImagePlayerViewController;
+    }
+    _newsTableViewController = [[NewsTableViewController alloc] init];
+    return _newsTableViewController;
 }
 
 

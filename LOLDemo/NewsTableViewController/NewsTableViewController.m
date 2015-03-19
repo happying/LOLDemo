@@ -9,7 +9,6 @@
 #import "NewsTableViewController.h"
 #import "Masonry.h"
 #import "MJRefresh.h"
-#import "contentsViewController.h"
 
 @interface NewsTableViewController ()
 

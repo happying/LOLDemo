@@ -10,6 +10,7 @@
 #import "ViewController.h"
 #import "MySelfDataForLOLDemoViewController.h"
 #import "NewsAndImagePlayerViewController.h"
+#import "TopTabViewController.h"
 
 @interface AppDelegate ()
 
@@ -26,8 +27,8 @@
     self.myTabBarController = [[UITabBarController alloc] init];
     [self.window setRootViewController:_myTabBarController];
     
-    ViewController *firstViewController = [[ViewController alloc] init];
-    ViewController *secondViewController = [[ViewController alloc] init];
+    TopTabViewController *firstViewController = [[TopTabViewController alloc] init];
+    TopTabViewController *secondViewController = [[TopTabViewController alloc] init];
     MySelfDataForLOLDemoViewController *thirdViewController = [[MySelfDataForLOLDemoViewController alloc] init];
     MySelfDataForLOLDemoViewController *fourthViewController = [[MySelfDataForLOLDemoViewController alloc] init];
     
