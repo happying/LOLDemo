@@ -10,8 +10,6 @@
 #import "Masonry.h"
 
 @interface NewsAndImagePlayerViewController ()
-@property (nonatomic, strong) NSString *cellIdentifier;
-
 @end
 
 @implementation NewsAndImagePlayerViewController
